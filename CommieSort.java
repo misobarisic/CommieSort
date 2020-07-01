@@ -1,55 +1,37 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CommieSort {
-    public static Integer[] sort(Integer[] arr) {
+    public static <T extends Comparable<T>> T[] sort(T[] arr) {
         int length = arr.length;
         for (int i = 0; i < length; i++) {
             if (i != length - 1) {
-                if (arr[i] >= arr[i + 1]) {
-                    return sort(toIntArray(remove(i + 1, arr)));
+                if (arr[i].compareTo(arr[i + 1]) >= 0) {
+                    return sort(remove(i + 1, arr));
                 }
             }
         }
         return arr;
     }
 
-    public static Double[] sort(Double[] arr) {
-        int length = arr.length;
-        for (int i = 0; i < length; i++) {
-            if (i != length - 1) {
-                if (arr[i] >= arr[i + 1]) {
-                    return sort(toDoubleArray(remove(i + 1, arr)));
-                }
-            }
-        }
-        return arr;
-    }
-
-    private static Object[] remove(int index, Object[] arr) {
-        ArrayList<Object> list = new ArrayList<>();
+    private static <T> T[] remove(int index, T[] arr) {
+        ArrayList<T> list = new ArrayList<>();
         for (int i = 0; i < arr.length; i++) {
             if (i != index) {
                 list.add(arr[i]);
             }
         }
-        return list.toArray(new Object[0]);
+        return toArray(list);
     }
 
-    private static Integer[] toIntArray(Object[] arr) {
-        int length = arr.length;
-        Integer[] intArr = new Integer[length];
-        for (int i = 0; i < arr.length; i++) {
-            intArr[i] = (int) arr[i];
+    private static <T> T[] toArray(List<T> list) {
+        T[] arr = (T[]) Array.newInstance(list.get(0)
+                .getClass(), list.size());
+        for (int i = 0; i < list.size(); i++) {
+            arr[i] = list.get(i);
         }
-        return intArr;
+        return arr;
     }
 
-    private static Double[] toDoubleArray(Object[] arr) {
-        int length = arr.length;
-        Double[] intArr = new Double[length];
-        for (int i = 0; i < arr.length; i++) {
-            intArr[i] = (double) arr[i];
-        }
-        return intArr;
-    }
 }

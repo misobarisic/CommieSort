@@ -1,6 +1,7 @@
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class CommieSort {
     public static <T extends Comparable<T>> T[] sort(T[] arr) {
@@ -28,9 +29,8 @@ public class CommieSort {
     private static <T> T[] toArray(List<T> list) {
         T[] arr = (T[]) Array.newInstance(list.get(0)
                 .getClass(), list.size());
-        for (int i = 0; i < list.size(); i++) {
-            arr[i] = list.get(i);
-        }
+        IntStream.range(0, list.size()).forEach(i ->
+                arr[i] = list.get(i));
         return arr;
     }
 
